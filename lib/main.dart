@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -28,41 +28,34 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> _listItems = [];
-  
-  Widget _addItem(){
-    return ListView.builder(
-      padding : EdgeInsets.all(0.0),
-      itemCount: _listItems.length,
-      itemBuilder: (context,index){
-        return Center(child : Image.asset(_listItems[index]));
-      }
-    );
-  }
-  
+  TextEditingController _idController = TextEditingController();
+  String id = 'eDEFolvLn0A';
+
+  YoutubePlayerController _controller = YoutubePlayerController(
+    initialVideoId: 'eDEFolvLn0A',
+    flags: YoutubePlayerFlags(autoPlay: true)
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("TutroailMemo"),
-      ),
-      body : Center(
-        child: _addItem()
-      ),
-      
-      floatingActionButton: FloatingActionButton(
-        onPressed:()
-          {
-          _listItems.add('assets/images/one.jpeg');
-          setState((){});
-          ShowToast("add New Item");
-        },
-        child: Icon(Icons.add),
-      ),
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              YoutubePlayer(
+              controller: _controller,
+              liveUIColor: Colors.amber,
+              ),
+            ],
+          ),
+        ));
   }
+}
   
-  void ShowToast(String msg,){
-    Toast.show(msg, context,duration:2,gravity : 0);
-  }
-  }
+  // void ShowToast(String msg){
+  //   Toast.show(msg, context,duration:2,gravity : 0);
+  // }
